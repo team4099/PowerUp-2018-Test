@@ -6,31 +6,19 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import edu.wpi.first.wpilibj.CameraServer
 import edu.wpi.first.wpilibj.IterativeRobot
+import edu.wpi.first.wpilibj.Joystick
 
 
 class Robot : IterativeRobot() {
 
-    private val leftMasterSRX: TalonSRX = TalonSRX(10)
-    private val rightMasterSRX: TalonSRX = TalonSRX(4)
+    private val leftMasterSRX: TalonSRX = TalonSRX(8)
+    private val rightMasterSRX: TalonSRX = TalonSRX(1)
+    private val joystick = Joystick(0)
+    private var direction = -1
 
     init {
         println("Working")
-        leftMasterSRX.set(ControlMode.PercentOutput, 0.3)
-        rightMasterSRX.set(ControlMode.PercentOutput, 0.3)
 
-        //leftMasterSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0) //configs sensor to a quad encoder
-       // leftMasterSRX.setSensorPhase(false) //to align positive sensor velocity with positive motor output
-//        leftMasterSRX.config_kP(0, 0.0115, 0) //sets PIDF values
-//        leftMasterSRX.config_kI(0,0.0 , 0)
-//        leftMasterSRX.config_kD(0, 0.0, 0)
-//        leftMasterSRX.config_kF(0,0.0 , 0)
-
-       // rightMasterSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0) //configs sensor to a quad encoder
-        // leftMasterSRX.setSensorPhase(false) //to align positive sensor velocity with positive motor output
-//        rightMasterSRX.config_kP(0, 0.0115, 0) //sets PIDF values
-//        rightMasterSRX.config_kI(0,0.0 , 0)
-//        rightMasterSRX.config_kD(0, 0.0, 0)
-//        leftMasterSRX.config_kF(0,0.0 , 0)
     }
 
 
@@ -51,8 +39,15 @@ class Robot : IterativeRobot() {
 
 
     override fun teleopPeriodic() {
+        if (joystick.getRawButton(2)) {
+            direction = 1
+        }
+        else {
+            direction = -1
+        }
 
-
+        leftMasterSRX.set(ControlMode.PercentOutput, 0.7 * direction)
+        rightMasterSRX.set(ControlMode.PercentOutput, 0.7 * direction)
     }
 
     override fun testInit() {
@@ -63,6 +58,11 @@ class Robot : IterativeRobot() {
     override fun testPeriodic() {
 
 
+    }
+
+    override fun autonomousPeriodic() {
+        leftMasterSRX.set(ControlMode.PercentOutput, 0.3)
+        rightMasterSRX.set(ControlMode.PercentOutput, 0.3)
     }
 
 
