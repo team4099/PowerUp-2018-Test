@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4099.robot
 
-/*import com.ctre.phoenix.motorcontrol.ControlMode
+import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
-import com.ctre.phoenix.motorcontrol.can.TalonSRX*/
+import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import edu.wpi.first.wpilibj.CameraServer
 import edu.wpi.first.wpilibj.DoubleSolenoid
 import edu.wpi.first.wpilibj.IterativeRobot
@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit
 
 class Robot : IterativeRobot() {
 
-    private val pneumaticPiston: DoubleSolenoid = DoubleSolenoid(1, 0)
-
+    private val pneumaticPiston1: DoubleSolenoid = DoubleSolenoid(1, 0)
+    private val pneumaticPiston2: DoubleSolenoid = DoubleSolenoid(2, 3)
     init {
         println("Working")
 
@@ -40,9 +40,11 @@ class Robot : IterativeRobot() {
 
     override fun teleopPeriodic() {
 
-        pneumaticPiston.set(DoubleSolenoid.Value.kForward)
+        pneumaticPiston1.set(DoubleSolenoid.Value.kForward)
+        pneumaticPiston2.set(DoubleSolenoid.Value.kForward)
         TimeUnit.SECONDS.sleep(5)
-        pneumaticPiston.set(DoubleSolenoid.Value.kReverse)
+        pneumaticPiston1.set(DoubleSolenoid.Value.kReverse)
+        pneumaticPiston2.set(DoubleSolenoid.Value.kReverse)
         TimeUnit.SECONDS.sleep(5)
 
     }
@@ -58,7 +60,7 @@ class Robot : IterativeRobot() {
     }
 
     override fun autonomousPeriodic() {
-       // leftMasterSRX.set(ControlMode.PercentOutput, 0.3)
+       //leftMasterSRX.set(ControlMode.PercentOutput, 0.3)
         //rightMasterSRX.set(ControlMode.PercentOutput, 0.3)
     }
 
